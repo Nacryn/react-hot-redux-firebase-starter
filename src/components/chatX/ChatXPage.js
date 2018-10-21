@@ -1,14 +1,17 @@
 import React from 'react';
 import {Link} from 'react-router';
+import checkAuth from '../requireAuth';
 
 import RoomList from './RoomList'
 import RoomChat from './RoomChat'
+
+import '../../styles/chatx.css'
 
 const ChatXPage = () => {
   return (
     <div>
       <h1>Chat X</h1>
-      <div>
+      <div className="cx-container">
         <RoomList></RoomList>
         <RoomChat></RoomChat>
       </div>
@@ -18,4 +21,4 @@ const ChatXPage = () => {
   );
 };
 
-export default ChatXPage;
+export default checkAuth(ChatXPage);

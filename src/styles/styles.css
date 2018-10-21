@@ -4,7 +4,7 @@ html, body, #root, .container-loading {
 }
 
 #app {
-  font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font: 14px 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   color: #4d4d4d;
   min-width: 550px;
   max-width: 850px;

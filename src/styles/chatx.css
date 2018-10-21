@@ -1,0 +1,44 @@
+/* Chat X */
+.cx-container {
+  display: flex;
+  flex-direction: row;
+
+  height: 70vh;
+}
+
+/* Room Chat */
+.rc-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+/* Room List */
+.rl-container {
+  display:flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  flex-grow: 0;
+
+  width: 200px;
+  margin-right: 10px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+/* Messages Display */
+.rc-md-content {
+  display:flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  flex-grow: 1;
+}
+
+.rc-ci-content {
+  flex-grow: 0;
+  flex-shrink: 0;
+}

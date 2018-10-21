@@ -1,5 +1,10 @@
 import React from 'react'
 
+import MessagesDisplay from './MessagesDisplay'
+import ChatInput from './ChatInput'
+
+import '../../styles/chatx.css'
+
 class RoomChat extends React.Component {
   constructor(props) {
     super(props)
@@ -8,9 +13,9 @@ class RoomChat extends React.Component {
 
   render() {
     return (
-      <div className="room-chat-content">
-        <div>Ici on va mettre les lignes</div>
-        <div>Ici on va mettre l'input</div>
+      <div className="rc-content">
+        <MessagesDisplay></MessagesDisplay>
+        <ChatInput></ChatInput>
       </div>
     )
   }
