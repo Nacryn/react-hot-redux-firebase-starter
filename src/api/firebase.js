@@ -63,12 +63,41 @@ class FirebaseApi {
   }
 
   static databaseSet(path, value) {
-
     return firebase
       .database()
       .ref(path)
       .set(value);
+  }
 
+  static getValuesOnce(path) {
+    return firebase
+      .database()
+      .ref(path)
+      .once('value')
+      .then( rooms => {
+        return new Promise( (resolve) => {
+          const res = [];
+          rooms.forEach(data => {
+            let result = data.val();
+            res.push(result)
+          })
+          resolve(res);
+        })
+      })
+  }
+
+  static onChildAdded(path, callback) {
+    firebase
+      .database()
+      .ref(path)
+      .on('child_added', callback)
+  }
+
+  static off(path, callback) {
+    firebase
+      .database()
+      .ref(path)
+      .off("child_added")
   }
 }
 

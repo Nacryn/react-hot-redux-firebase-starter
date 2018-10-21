@@ -16,5 +16,6 @@ export default {
     currentUserUID: null,
     initialized: false
   },
+  rooms: [],
   ajaxCallsInProgress: 0
 };

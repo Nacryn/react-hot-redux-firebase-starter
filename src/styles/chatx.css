@@ -30,6 +30,15 @@
   box-sizing: border-box;
 }
 
+.rl-list {
+  flex-grow: 1;
+}
+
+.rl-create-room {
+  flex-shrink: 0;
+  flex-grow: 0;
+}
+
 /* Messages Display */
 .rc-md-content {
   display:flex;
