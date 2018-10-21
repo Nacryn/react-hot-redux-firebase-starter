@@ -1,11 +1,11 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-// TODO : pick the good actions
-import {createRoom, loadRooms, } from '../../actions/roomActions';
-import { watchRoomCreatedEvent, unwatchRoomCreatedEvent } from '../../listeners/roomListeners';
-// --
+import {Link, IndexLink} from 'react-router';
 import toastr from 'toastr';
+
+import {createRoom, loadRooms, joinRoom } from '../../actions/roomActions';
+import { watchRoomCreatedEvent, unwatchRoomCreatedEvent } from '../../listeners/roomListeners';
 
 import '../../styles/chatx.css'
 
@@ -19,6 +19,7 @@ class RoomList extends React.Component {
 
     this.updateNewRoomName = this.updateNewRoomName.bind(this);
     this.saveRoom = this.saveRoom.bind(this);
+    this.selectRoom = this.selectRoom.bind(this);
   }
 
   componentWillMount() {
@@ -43,13 +44,17 @@ class RoomList extends React.Component {
       .finally(() => this.setState({saving: false, new_room_name: ''}))
   }
 
+  selectRoom(event) {
+    this.props.actions.joinRoom(event.target.getAttribute('data-id'));
+  }
+
   render() {
     return (
       <div className="rl-container">
         <div className="rl-list">
           { 
             this.props.rooms.map( elem => {
-              return <div key={elem.slug} className="rl-element">{elem.name}</div>
+              return <div key={elem.slug} data-id={elem._id} onClick={this.selectRoom}>{elem.name}</div>
             })
           }
         </div>
@@ -71,13 +76,19 @@ class RoomList extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    rooms: state.rooms
+    rooms: state.rooms.list
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({createRoom, loadRooms, watchRoomCreatedEvent, unwatchRoomCreatedEvent}, dispatch)
+    actions: bindActionCreators({
+      createRoom,
+      loadRooms,
+      joinRoom,
+      watchRoomCreatedEvent,
+      unwatchRoomCreatedEvent
+    }, dispatch)
   };
 }
 

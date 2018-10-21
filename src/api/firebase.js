@@ -4,6 +4,10 @@ import {firebaseConfig} from '../config';
 
 class FirebaseApi {
 
+  static get TIMESTAMP_CONST() {
+    return firebase.database.ServerValue.TIMESTAMP;
+  }
+
   static initAuth() {
     firebase.initializeApp(firebaseConfig);
     return new Promise((resolve, reject) => {
@@ -90,6 +94,7 @@ class FirebaseApi {
     firebase
       .database()
       .ref(path)
+      .limitToLast(10)
       .on('child_added', callback)
   }
 
@@ -97,7 +102,7 @@ class FirebaseApi {
     firebase
       .database()
       .ref(path)
-      .off("child_added")
+      .off('child_added')
   }
 }
 

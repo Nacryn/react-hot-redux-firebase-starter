@@ -6,7 +6,9 @@ import { roomHasBeenCreated } from '../actions/roomActions';
 export function watchRoomCreatedEvent() {
   return (dispatch) => {
     firebaseApi.onChildAdded('/rooms', (snap) => {
-      dispatch(roomHasBeenCreated(snap.val()));
+      let room = snap.val();
+      room._id = snap.getKey();
+      dispatch(roomHasBeenCreated(room));
     })
   }
 }
@@ -16,3 +18,4 @@ export function unwatchRoomCreatedEvent() {
     firebaseApi.off('/rooms');
   }
 }
+

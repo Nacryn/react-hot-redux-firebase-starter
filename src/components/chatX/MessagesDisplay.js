@@ -1,24 +1,52 @@
 import React from 'react'
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import toastr from 'toastr';
+
+import { watchIncomingMessage, unwatchIncomingMessage } from '../../listeners/messageListeners';
 
 import '../../styles/chatx.css'
 
 class MessagesDisplay extends React.Component {
   constructor(props) {
     super(props)
+  }
 
+  componentWillMount() {
+    this.props.actions.watchIncomingMessage(this.props.currentRoomId);
+  }
+
+  componentWillUnmount() {
+    this.props.actions.unwatchIncomingMessage(this.props.currentRoomId);
   }
 
   render() {
     return (
       <div className="rc-md-content">
-        <div className="cx-md-message">Ceci est un message de test de début</div>
-        <div className="cx-md-message">Ceci est un message de test</div>
-        <div className="cx-md-message">Ceci est un message de test</div>
-        <div className="cx-md-message">Ceci est un message de test</div>
-        <div className="cx-md-message">Ceci est un message de test de fin</div>
+        {
+          this.props.messages.map( (elem) => {
+            return <div className="cx-md-message">{elem.content}</div>
+          })
+        }
       </div>
     )
   }
 }
 
-export default MessagesDisplay
+function mapStateToProps(state) {
+  return {
+    messages: state.messages,
+    currentRoomId: state.rooms.current,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators({
+      watchIncomingMessage,
+      unwatchIncomingMessage
+    }, dispatch)
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MessagesDisplay);

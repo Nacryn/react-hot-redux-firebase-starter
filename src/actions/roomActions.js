@@ -1,7 +1,6 @@
 import firebaseApi from '../api/firebase';
 import * as types from './actionTypes';
 
-import { authLoggedIn } from './authActions';
 import {ajaxCallError, beginAjaxCall} from './ajaxStatusActions';
 
 function createRoomProperties(roomName, loggedUserUid) {
@@ -10,7 +9,7 @@ function createRoomProperties(roomName, loggedUserUid) {
     slug: roomName.replace(/ /gi, '-').toLowerCase(),
     private: false,
     creator: loggedUserUid,
-    created_at: new Date(),
+    created_at: firebaseApi.TIMESTAMP_CONST,
   };
 }
 
@@ -36,7 +35,7 @@ export function loadRooms() {
     dispatch(beginAjaxCall());
     return firebaseApi.getValuesOnce('/rooms')
       .then( rooms => {
-        dispatch(roomLoadedSuccess(rooms))
+        dispatch(roomLoadedSuccess(rooms));
       })
       .catch( error => {
         dispatch(ajaxCallError(error));
@@ -44,6 +43,15 @@ export function loadRooms() {
         throw(error);
       })
   };
+}
+
+export function joinRoom(roomId) {
+  return (dispatch) => {
+    dispatch(beginAjaxCall());
+
+    // TODO : get last 10 messages
+    dispatch(roomJoinedSuccess(roomId));
+  }
 }
 
 export function roomCreatedSuccess() {
@@ -56,6 +64,13 @@ export function roomLoadedSuccess(rooms) {
   return {
     type: types.ROOM_LOADED_SUCCESS,
     rooms,
+  }
+}
+
+export function roomJoinedSuccess(room) {
+  return {
+    type: types.ROOM_JOINED_SUCCESS,
+    room
   }
 }
 
