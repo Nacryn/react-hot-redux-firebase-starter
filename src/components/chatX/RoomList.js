@@ -4,8 +4,10 @@ import {bindActionCreators} from 'redux';
 import {Link, IndexLink} from 'react-router';
 import toastr from 'toastr';
 
-import {createRoom, joinRoom, purgeRoomList } from '../../actions/roomActions';
-import { watchRoomCreatedEvent, unwatchRoomCreatedEvent } from '../../listeners/roomListeners';
+import {createRoom, joinRoom, purgeRoomList, leaveRoom } from '../../actions/roomActions';
+import {
+  watchRoomCreatedEvent, unwatchRoomCreatedEvent,
+  watchRoomUserAdded, watchRoomUserRemoved, unwatchRoomUsers } from '../../listeners/roomListeners';
 
 import '../../styles/chatx.css'
 
@@ -22,13 +24,24 @@ class RoomList extends React.Component {
     this.selectRoom = this.selectRoom.bind(this);
   }
 
+  // Watch all new rooms event as soon as the list is mounted
   componentWillMount() {
     this.props.actions.watchRoomCreatedEvent();
   }
 
+  // Stop listening to new rooms event when component is dismounted + purge the list + leave the current room
   componentWillUnmount() {
     this.props.actions.unwatchRoomCreatedEvent();
-    this.props.actions.purgeRoomList();
+    this.props.actions.leaveRoom(this.props.current);
+  }
+
+  // Watch new room user based on the current room (and update when it changes)
+  componentDidUpdate(oldProps) {
+    if (oldProps.current !== this.props.current) {
+      this.props.actions.unwatchRoomUsers(oldProps.current);
+      this.props.actions.watchRoomUserAdded(this.props.current);
+      this.props.actions.watchRoomUserRemoved(this.props.current);
+    }
   }
 
   updateNewRoomName(event) {
@@ -55,7 +68,19 @@ class RoomList extends React.Component {
         <div className="rl-list">
           { 
             this.props.rooms.map( elem => {
-              return <div key={elem.slug} data-id={elem._id} onClick={this.selectRoom}>{elem.name}</div>
+              if (elem._id === this.props.current) {
+                return <div key={elem._id} className="active">
+                  <div data-id={elem._id} onClick={this.selectRoom}>{elem.name}</div>
+                  <div className="active_users">
+                    { this.props.active_users.map( elem => {
+                      return <div key={elem}>{elem}</div>
+                    })}
+                  </div>
+                </div>
+              }
+              else {
+                return <div key={elem._id} data-id={elem._id} onClick={this.selectRoom}>{elem.name}</div>
+              }
             })
           }
         </div>
@@ -77,7 +102,9 @@ class RoomList extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    rooms: state.rooms.list
+    rooms: state.rooms.list,
+    current: state.rooms.current,
+    active_users: state.rooms.active_users
   };
 }
 
@@ -86,9 +113,13 @@ function mapDispatchToProps(dispatch) {
     actions: bindActionCreators({
       createRoom,
       joinRoom,
+      leaveRoom,
       purgeRoomList,
       watchRoomCreatedEvent,
-      unwatchRoomCreatedEvent
+      unwatchRoomCreatedEvent,
+      watchRoomUserAdded,
+      watchRoomUserRemoved,
+      unwatchRoomUsers,
     }, dispatch)
   };
 }

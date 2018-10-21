@@ -1,6 +1,6 @@
 import * as firebase from 'firebase/firebase-browser';
+import * as triggers from '../constants/firebaseTriggers';
 import {firebaseConfig} from '../config';
-
 
 class FirebaseApi {
 
@@ -94,15 +94,29 @@ class FirebaseApi {
     firebase
       .database()
       .ref(path)
-      .limitToLast(10)
-      .on('child_added', callback)
+      .on(triggers.CHILD_ADDED, callback)
   }
 
-  static off(path, callback) {
+  static onChildRemoved(path, callback) {
     firebase
       .database()
       .ref(path)
-      .off('child_added')
+      .on(triggers.CHILD_REMOVED, callback)
+  }
+
+  static onLastChildsAdded(path, number, callback) {
+    firebase
+      .database()
+      .ref(path)
+      .limitToLast(number)
+      .on(triggers.CHILD_ADDED, callback)
+  }
+
+  static off(trigger, path, callback) {
+    firebase
+      .database()
+      .ref(path)
+      .off(trigger)
   }
 }
 

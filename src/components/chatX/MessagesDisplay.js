@@ -1,7 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import toastr from 'toastr';
 
 import { watchIncomingMessage, unwatchIncomingMessage } from '../../listeners/messageListeners';
 
@@ -13,7 +12,9 @@ class MessagesDisplay extends React.Component {
   }
 
   componentDidUpdate(oldProps) {
+    console.log("am i updating ? ", oldProps, this.props);
     if (oldProps.currentRoomId !== this.props.currentRoomId) {
+      console.log("do we watch ?");
       this.props.actions.unwatchIncomingMessage(oldProps.currentRoomId);
       this.props.actions.watchIncomingMessage(this.props.currentRoomId);
     }

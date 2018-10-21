@@ -1,19 +1,30 @@
 import React from 'react';
 import {Link} from 'react-router';
-import checkAuth from '../requireAuth';
+import {connect} from 'react-redux';
 
+import checkAuth from '../requireAuth';
 import RoomList from './RoomList'
-import RoomChat from './RoomChat'
+import MessagesDisplay from './MessagesDisplay'
+import ChatInput from './ChatInput'
 
 import '../../styles/chatx.css'
 
-const ChatXPage = () => {
+const ChatXPage = ({currentRoom}) => {
   return (
     <div>
       <h1>Chat X</h1>
       <div className="cx-container">
-        <RoomList></RoomList>
-        <RoomChat></RoomChat>
+        <div className="cx-left-panel">
+          <RoomList />
+        </div>
+        { (currentRoom) ?
+          <div className="cx-right-panel">
+            <MessagesDisplay />
+            <ChatInput />
+          </div>
+          :
+          <div className="no-room">Please pick a room (or create one) on the left !</div>
+        }
       </div>
       <p>Created by <a href="https://github.com/Nacryn">@someone</a></p>
       <Link to="/" activeClassName="active">Go to Home</Link>
@@ -21,4 +32,14 @@ const ChatXPage = () => {
   );
 };
 
-export default checkAuth(ChatXPage);
+function mapStateToProps(state) {
+  return {
+    currentRoom: state.rooms.current
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {};
+}
+
+export default checkAuth(connect(mapStateToProps, mapDispatchToProps)(ChatXPage));

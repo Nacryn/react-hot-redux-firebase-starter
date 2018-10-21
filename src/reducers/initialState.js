@@ -18,7 +18,8 @@ export default {
   },
   rooms: {
     list: [],
-    current: undefined,
+    current: null,
+    active_users: [],
   },
   messages: [],
   ajaxCallsInProgress: 0
