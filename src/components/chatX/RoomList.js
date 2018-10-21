@@ -72,13 +72,13 @@ class RoomList extends React.Component {
                   <div data-id={elem._id} className="room-name" onClick={this.selectRoom}>{elem.name}</div>
                   <div className="active_users">
                     {this.props.active_users.map( elem => {
-                      return <div key={elem}>{elem}</div>
+                      return <div key={elem}>{elem}</div>;
                     })}
                   </div>
-                </div>)
+                </div>);
               }
               else {
-                return <div key={elem._id} data-id={elem._id} className="room-name" onClick={this.selectRoom}>{elem.name}</div>
+                return <div key={elem._id} data-id={elem._id} className="room-name" onClick={this.selectRoom}>{elem.name}</div>;
               }
             })
           }
