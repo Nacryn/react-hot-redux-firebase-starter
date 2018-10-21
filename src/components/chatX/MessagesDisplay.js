@@ -37,7 +37,10 @@ class MessagesDisplay extends React.Component {
       <div className="rc-md-content">
         {
           this.props.messages.map( (elem) => {
-            return <div key={elem._id} className="cx-md-message">{elem.content}</div>
+            return <div key={elem._id} className="cx-md-message">
+              <div className="md-message-author">{elem.sender_name}</div>
+              <div className="md-message-content">{elem.content}</div>
+            </div>
           })
         }
       </div>

@@ -70,7 +70,7 @@ class RoomList extends React.Component {
             this.props.rooms.map( elem => {
               if (elem._id === this.props.current) {
                 return <div key={elem._id} className="active">
-                  <div data-id={elem._id} onClick={this.selectRoom}>{elem.name}</div>
+                  <div data-id={elem._id} className="room-name" onClick={this.selectRoom}>{elem.name}</div>
                   <div className="active_users">
                     { this.props.active_users.map( elem => {
                       return <div key={elem}>{elem}</div>
@@ -79,13 +79,13 @@ class RoomList extends React.Component {
                 </div>
               }
               else {
-                return <div key={elem._id} data-id={elem._id} onClick={this.selectRoom}>{elem.name}</div>
+                return <div key={elem._id} data-id={elem._id} className="room-name" onClick={this.selectRoom}>{elem.name}</div>
               }
             })
           }
         </div>
         <div className="rl-create-room">
-          <form>
+          <form className="rl-form">
             <input type="text" value={this.state.new_room_name} onChange={this.updateNewRoomName} placeholder="new room name" />
             <input
               type="submit"

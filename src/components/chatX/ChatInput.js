@@ -36,13 +36,13 @@ class ChatInput extends React.Component {
   render() {
     return (
       <div className="rc-ci-content">
-        <form>
-          <input type="text" value={this.state.message} onChange={this.updateMessage} placeholder="Type your message here !" />
+        <form className="message-sender-form">
+          <input className="message-sender-input" type="text" value={this.state.message} onChange={this.updateMessage} placeholder="Type your message here !" />
           <input
             type="submit"
             disabled={this.state.saving}
             value={this.state.saving ? 'Sending...' : 'Send'}
-            className="btn btn-primary"
+            className="btn btn-primary message-sender-submit"
             onClick={this.sendMessage}/>
         </form>
       </div>

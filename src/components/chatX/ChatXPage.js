@@ -26,8 +26,6 @@ const ChatXPage = ({currentRoom}) => {
           <div className="no-room">Please pick a room (or create one) on the left !</div>
         }
       </div>
-      <p>Created by <a href="https://github.com/Nacryn">@someone</a></p>
-      <Link to="/" activeClassName="active">Go to Home</Link>
     </div>
   );
 };
