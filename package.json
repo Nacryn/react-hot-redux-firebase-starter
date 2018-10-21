@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "description": "Boilerplate for ReactJS, Redux, Hot Loading and Firebase 3.x",
   "scripts": {
-    "start": "npm-run-all --parallel open:src lint",
-    "start:dev": "npm-run-all --parallel test:watch open:src lint:watch",
+    "prestart": "babel-node tools/startMessage.js",
+    "start": "npm-run-all --parallel test:watch open:src lint:watch",
     "open:src": "babel-node tools/srcServer.js",
     "test": "mocha --reporter progress tools/testSetup.js src/*.test.js",
     "test:watch": "npm run test -- --watch",
