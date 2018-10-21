@@ -3,10 +3,10 @@ import { messageReceivedSuccess } from '../actions/messageActions';
 
 export function watchIncomingMessage(roomId) {
   return (dispatch) => {
-    console.log('watch :', roomId);
     firebaseApi.onChildAdded('/messages/'+roomId, (snap) => {
-      console.log(snap.val());
-      dispatch(messageReceivedSuccess(snap.val()));
+      let message = snap.val();
+      message._id = snap.getKey();
+      dispatch(messageReceivedSuccess(message));
     })
   }
 }

@@ -13,7 +13,6 @@ class MessagesDisplay extends React.Component {
   }
 
   componentDidUpdate(oldProps) {
-    console.log("am i updating ?");
     if (oldProps.currentRoomId !== this.props.currentRoomId) {
       this.props.actions.unwatchIncomingMessage(oldProps.currentRoomId);
       this.props.actions.watchIncomingMessage(this.props.currentRoomId);
@@ -25,7 +24,7 @@ class MessagesDisplay extends React.Component {
       <div className="rc-md-content">
         {
           this.props.messages.map( (elem) => {
-            return <div className="cx-md-message">{elem.content}</div>
+            return <div key={elem._id} className="cx-md-message">{elem.content}</div>
           })
         }
       </div>
@@ -34,7 +33,6 @@ class MessagesDisplay extends React.Component {
 }
 
 function mapStateToProps(state) {
-  console.log(state);
   return {
     messages: state.messages,
     currentRoomId: state.rooms.current,

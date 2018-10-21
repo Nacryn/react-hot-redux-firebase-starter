@@ -24,6 +24,12 @@ export function sendMessageInCurrentRoom(message) {
   }
 }
 
+export function purgePreviousMessages() {
+  return {
+    type: types.MESSAGES_PURGE_PREVIOUS
+  };
+}
+
 export function messageSentSuccess() {
   return {
     type: types.MESSAGE_SENT_SUCCESS

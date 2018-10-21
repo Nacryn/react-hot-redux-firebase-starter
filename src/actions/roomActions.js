@@ -1,6 +1,6 @@
 import firebaseApi from '../api/firebase';
 import * as types from './actionTypes';
-
+import { purgePreviousMessages } from './messageActions';
 import {ajaxCallError, beginAjaxCall} from './ajaxStatusActions';
 
 function createRoomProperties(roomName, loggedUserUid) {
@@ -30,28 +30,25 @@ export function createRoom(roomName) {
   };
 }
 
-export function loadRooms() {
-  return (dispatch, getState) => {
-    dispatch(beginAjaxCall());
-    return firebaseApi.getValuesOnce('/rooms')
-      .then( rooms => {
-        dispatch(roomLoadedSuccess(rooms));
-      })
-      .catch( error => {
-        dispatch(ajaxCallError(error));
-        // @TODO better error handling
-        throw(error);
-      })
-  };
-}
-
 export function joinRoom(roomId) {
-  return (dispatch) => {
-    dispatch(beginAjaxCall());
-
-    // TODO : get last 10 messages
+  return (dispatch, getState) => {
+    // Leave previous room
+    dispatch(leaveRoom(getState().rooms.current))
+    // Join the new one
     dispatch(roomJoinedSuccess(roomId));
   }
+}
+
+export function leaveRoom(roomId) {
+  return (dispatch) => {
+    dispatch(purgePreviousMessages());
+  }
+}
+
+export function purgeRoomList() {
+  return {
+    type: types.ROOMS_PURGE_LIST
+  };
 }
 
 export function roomCreatedSuccess() {

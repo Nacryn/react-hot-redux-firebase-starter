@@ -4,7 +4,7 @@ import {bindActionCreators} from 'redux';
 import {Link, IndexLink} from 'react-router';
 import toastr from 'toastr';
 
-import {createRoom, loadRooms, joinRoom } from '../../actions/roomActions';
+import {createRoom, joinRoom, purgeRoomList } from '../../actions/roomActions';
 import { watchRoomCreatedEvent, unwatchRoomCreatedEvent } from '../../listeners/roomListeners';
 
 import '../../styles/chatx.css'
@@ -28,6 +28,7 @@ class RoomList extends React.Component {
 
   componentWillUnmount() {
     this.props.actions.unwatchRoomCreatedEvent();
+    this.props.actions.purgeRoomList();
   }
 
   updateNewRoomName(event) {
@@ -84,8 +85,8 @@ function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
       createRoom,
-      loadRooms,
       joinRoom,
+      purgeRoomList,
       watchRoomCreatedEvent,
       unwatchRoomCreatedEvent
     }, dispatch)
