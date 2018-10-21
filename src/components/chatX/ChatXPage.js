@@ -3,11 +3,11 @@ import {Link} from 'react-router';
 import {connect} from 'react-redux';
 
 import checkAuth from '../requireAuth';
-import RoomList from './RoomList'
-import MessagesDisplay from './MessagesDisplay'
-import ChatInput from './ChatInput'
+import RoomList from './RoomList';
+import MessagesDisplay from './MessagesDisplay';
+import ChatInput from './ChatInput';
 
-import '../../styles/chatx.css'
+import '../../styles/chatx.css';
 
 const ChatXPage = ({currentRoom}) => {
   return (
@@ -17,13 +17,14 @@ const ChatXPage = ({currentRoom}) => {
         <div className="cx-left-panel">
           <RoomList />
         </div>
-        { (currentRoom) ?
-          <div className="cx-right-panel">
-            <MessagesDisplay />
-            <ChatInput />
-          </div>
+        {
+          (currentRoom) ?
+            <div className="cx-right-panel">
+              <MessagesDisplay />
+              <ChatInput />
+            </div>
           :
-          <div className="no-room">Please pick a room (or create one) on the left !</div>
+            <div className="no-room">Please pick a room (or create one) on the left !</div>
         }
       </div>
     </div>

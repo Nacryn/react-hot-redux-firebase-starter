@@ -1,19 +1,19 @@
-import React from 'react'
+import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import toastr from 'toastr';
 
 import { sendMessageInCurrentRoom } from '../../actions/messageActions';
 
-import '../../styles/chatx.css'
+import '../../styles/chatx.css';
 
 class ChatInput extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       message: '',
-      saving: false,
-    }
+      saving: false
+    };
 
     this.updateMessage = this.updateMessage.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
@@ -30,7 +30,7 @@ class ChatInput extends React.Component {
     this.props.actions.sendMessageInCurrentRoom(this.state.message)
       .then(message => {})
       .catch(error => toastr.error(error.message))
-      .finally(() => this.setState({saving: false, message: ''}))
+      .finally(() => this.setState({saving: false, message: ''}));
   }
 
   render() {
@@ -46,7 +46,7 @@ class ChatInput extends React.Component {
             onClick={this.sendMessage}/>
         </form>
       </div>
-    )
+    );
   }
 }
 
@@ -58,7 +58,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
-      sendMessageInCurrentRoom,
+      sendMessageInCurrentRoom
     }, dispatch)
   };
 }

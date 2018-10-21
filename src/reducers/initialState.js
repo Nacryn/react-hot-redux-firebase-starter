@@ -19,7 +19,7 @@ export default {
   rooms: {
     list: [],
     current: null,
-    active_users: [],
+    active_users: []
   },
   messages: [],
   ajaxCallsInProgress: 0

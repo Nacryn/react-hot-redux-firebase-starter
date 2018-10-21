@@ -1,7 +1,6 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {Link, IndexLink} from 'react-router';
 import toastr from 'toastr';
 
 import {createRoom, joinRoom, purgeRoomList, leaveRoom } from '../../actions/roomActions';
@@ -9,14 +8,14 @@ import {
   watchRoomCreatedEvent, unwatchRoomCreatedEvent,
   watchRoomUserAdded, watchRoomUserRemoved, unwatchRoomUsers } from '../../listeners/roomListeners';
 
-import '../../styles/chatx.css'
+import '../../styles/chatx.css';
 
 class RoomList extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
       new_room_name: '',
-      saving: false,
+      saving: false
     };
 
     this.updateNewRoomName = this.updateNewRoomName.bind(this);
@@ -29,12 +28,6 @@ class RoomList extends React.Component {
     this.props.actions.watchRoomCreatedEvent();
   }
 
-  // Stop listening to new rooms event when component is dismounted + purge the list + leave the current room
-  componentWillUnmount() {
-    this.props.actions.unwatchRoomCreatedEvent();
-    this.props.actions.leaveRoom(this.props.current);
-  }
-
   // Watch new room user based on the current room (and update when it changes)
   componentDidUpdate(oldProps) {
     if (oldProps.current !== this.props.current) {
@@ -42,6 +35,12 @@ class RoomList extends React.Component {
       this.props.actions.watchRoomUserAdded(this.props.current);
       this.props.actions.watchRoomUserRemoved(this.props.current);
     }
+  }
+
+  // Stop listening to new rooms event when component is dismounted + purge the list + leave the current room
+  componentWillUnmount() {
+    this.props.actions.unwatchRoomCreatedEvent();
+    this.props.actions.leaveRoom(this.props.current);
   }
 
   updateNewRoomName(event) {
@@ -55,7 +54,7 @@ class RoomList extends React.Component {
     this.props.actions.createRoom(this.state.new_room_name)
       .then(room => toastr.success(`Room "${this.state.new_room_name}" has been created.`))
       .catch(error => toastr.error(error.message))
-      .finally(() => this.setState({saving: false, new_room_name: ''}))
+      .finally(() => this.setState({saving: false, new_room_name: ''}));
   }
 
   selectRoom(event) {
@@ -69,14 +68,14 @@ class RoomList extends React.Component {
           { 
             this.props.rooms.map( elem => {
               if (elem._id === this.props.current) {
-                return <div key={elem._id} className="active">
+                return (<div key={elem._id} className="active">
                   <div data-id={elem._id} className="room-name" onClick={this.selectRoom}>{elem.name}</div>
                   <div className="active_users">
-                    { this.props.active_users.map( elem => {
+                    {this.props.active_users.map( elem => {
                       return <div key={elem}>{elem}</div>
                     })}
                   </div>
-                </div>
+                </div>)
               }
               else {
                 return <div key={elem._id} data-id={elem._id} className="room-name" onClick={this.selectRoom}>{elem.name}</div>
@@ -96,7 +95,7 @@ class RoomList extends React.Component {
           </form>
         </div>
       </div>
-    )
+    );
   }
 }
 
@@ -119,7 +118,7 @@ function mapDispatchToProps(dispatch) {
       unwatchRoomCreatedEvent,
       watchRoomUserAdded,
       watchRoomUserRemoved,
-      unwatchRoomUsers,
+      unwatchRoomUsers
     }, dispatch)
   };
 }

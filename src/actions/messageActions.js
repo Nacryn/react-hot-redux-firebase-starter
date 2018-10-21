@@ -10,8 +10,8 @@ export function sendMessageInCurrentRoom(message) {
       sender: getState().user.uid,
       sender_name: getState().user.email,
       content: message,
-      date: firebaseApi.TIMESTAMP_CONST,
-    }
+      date: firebaseApi.TIMESTAMP_CONST
+    };
     return firebaseApi.databasePush('/messages/'+currentRoomId, newMessage)
       .then( () => {
         dispatch(messageSentSuccess());
@@ -20,8 +20,8 @@ export function sendMessageInCurrentRoom(message) {
         dispatch(ajaxCallError(error));
         // @TODO better error handling
         throw(error);
-      })
-  }
+      });
+  };
 }
 
 export function purgePreviousMessages() {
@@ -40,5 +40,5 @@ export function messageReceivedSuccess(message) {
   return {
     type: types.MESSAGE_RECEIVED_SUCCESS,
     message
-  }
+  };
 }

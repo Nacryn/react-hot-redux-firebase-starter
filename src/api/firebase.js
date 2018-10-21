@@ -83,25 +83,25 @@ class FirebaseApi {
           const res = [];
           rooms.forEach(data => {
             let result = data.val();
-            res.push(result)
-          })
+            res.push(result);
+          });
           resolve(res);
-        })
-      })
+        });
+      });
   }
 
   static onChildAdded(path, callback) {
     firebase
       .database()
       .ref(path)
-      .on(triggers.CHILD_ADDED, callback)
+      .on(triggers.CHILD_ADDED, callback);
   }
 
   static onChildRemoved(path, callback) {
     firebase
       .database()
       .ref(path)
-      .on(triggers.CHILD_REMOVED, callback)
+      .on(triggers.CHILD_REMOVED, callback);
   }
 
   static onLastChildsAdded(path, number, callback) {
@@ -109,14 +109,14 @@ class FirebaseApi {
       .database()
       .ref(path)
       .limitToLast(number)
-      .on(triggers.CHILD_ADDED, callback)
+      .on(triggers.CHILD_ADDED, callback);
   }
 
   static off(trigger, path, callback) {
     firebase
       .database()
       .ref(path)
-      .off(trigger)
+      .off(trigger);
   }
 }
 

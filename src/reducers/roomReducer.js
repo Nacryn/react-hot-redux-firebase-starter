@@ -4,7 +4,7 @@ import initialState from './initialState';
 export default function roomReducer(state = initialState.rooms, action) {
   switch (action.type) {
     case types.ROOM_CREATED_SUCCESS:
-      return state
+      return state;
     case types.ROOM_HAS_BEEN_CREATED:
       return Object.assign({}, state, { list: [...state.list, action.room] });
     case types.ROOM_JOINED_SUCCESS:

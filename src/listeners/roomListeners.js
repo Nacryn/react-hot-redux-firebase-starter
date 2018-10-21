@@ -10,31 +10,31 @@ export function watchRoomCreatedEvent() {
       let room = snap.val();
       room._id = snap.getKey();
       dispatch(roomHasBeenCreated(room));
-    })
-  }
+    });
+  };
 }
 
 export function unwatchRoomCreatedEvent() {
   return (dispatch) => {
-    firebaseApi.off(triggers.CHILD_ADDED, '/rooms')
+    firebaseApi.off(triggers.CHILD_ADDED, '/rooms');
     dispatch(purgeRoomList());
-  }
+  };
 }
 
 export function watchRoomUserAdded(roomId) {
   return (dispatch) => {
     firebaseApi.onChildAdded(`/rooms/${roomId}/active_users`, (snap) => {
       dispatch(roomUserConnected(snap.val()));
-    })
-  }
+    });
+  };
 }
 
 export function watchRoomUserRemoved(roomId) {
   return (dispatch) => {
     firebaseApi.onChildRemoved(`/rooms/${roomId}/active_users`, (snap) => {
       dispatch(roomUserLeft(snap.val()));
-    })
-  }
+    });
+  };
 }
 
 export function unwatchRoomUsers(roomId) {
@@ -42,5 +42,5 @@ export function unwatchRoomUsers(roomId) {
     firebaseApi.off(triggers.CHILD_ADDED, `/rooms/${roomId}/active_users`);
     firebaseApi.off(triggers.CHILD_REMOVED, `/rooms/${roomId}/active_users`);
     dispatch(purgeActiveUsersList());
-  }
+  };
 }

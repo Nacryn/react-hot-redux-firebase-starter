@@ -9,7 +9,7 @@ function createRoomProperties(roomName, loggedUserUid) {
     slug: roomName.replace(/ /gi, '-').toLowerCase(),
     private: false,
     creator: loggedUserUid,
-    created_at: firebaseApi.TIMESTAMP_CONST,
+    created_at: firebaseApi.TIMESTAMP_CONST
   };
 }
 
@@ -31,7 +31,7 @@ export function joinRoom(roomId) {
   return (dispatch, getState) => {
     dispatch(beginAjaxCall());
     // Leave previous room
-    dispatch(leaveRoom(getState().rooms.current))
+    dispatch(leaveRoom(getState().rooms.current));
     // Join the new one
     firebaseApi.databaseSet(`/rooms/${roomId}/active_users/${getState().user.uid}`, getState().user.email)
       .then( () => {
@@ -41,7 +41,7 @@ export function joinRoom(roomId) {
         dispatch(ajaxCallError(error));
         throw(error);
       });
-  }
+  };
 }
 
 export function leaveRoom(roomId) {
@@ -58,7 +58,7 @@ export function leaveRoom(roomId) {
         dispatch(ajaxCallError(error));
         throw(error);
       });
-  }
+  };
 }
 
 export function purgeRoomList() {
@@ -82,15 +82,15 @@ export function roomCreatedSuccess() {
 export function roomLoadedSuccess(rooms) {
   return {
     type: types.ROOM_LOADED_SUCCESS,
-    rooms,
-  }
+    rooms
+  };
 }
 
 export function roomJoinedSuccess(room) {
   return {
     type: types.ROOM_JOINED_SUCCESS,
     room
-  }
+  };
 }
 
 export function roomLeftSuccess(room, userId) {
@@ -98,33 +98,33 @@ export function roomLeftSuccess(room, userId) {
     type: types.ROOM_LEFT_SUCCESS,
     room,
     userId
-  }
+  };
 }
 
 export function roomHasBeenCreated(room) {
   return {
     type: types.ROOM_HAS_BEEN_CREATED,
     room
-  }
+  };
 }
 
 export function roomHasBeenDeleted(room) {
   return {
     type: types.ROOM_HAS_BEEN_DELETED,
     room
-  }
+  };
 }
 
 export function roomUserConnected(user) {
   return {
     type: types.ROOM_NEW_USER_CONNECTED,
     user
-  }
+  };
 }
 
 export function roomUserLeft(user) {
   return {
     type: types.ROOM_NEW_USER_LEFT,
     user
-  }
+  };
 }
