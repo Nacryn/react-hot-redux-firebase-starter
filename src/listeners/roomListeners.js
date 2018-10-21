@@ -24,7 +24,6 @@ export function unwatchRoomCreatedEvent() {
 export function watchRoomUserAdded(roomId) {
   return (dispatch) => {
     firebaseApi.onChildAdded(`/rooms/${roomId}/active_users`, (snap) => {
-      console.log(snap.val());
       dispatch(roomUserConnected(snap.val()));
     })
   }

@@ -9,6 +9,8 @@ export default function roomReducer(state = initialState.rooms, action) {
       return Object.assign({}, state, { list: [...state.list, action.room] });
     case types.ROOM_JOINED_SUCCESS:
       return Object.assign({}, state, { current: action.room });
+    case types.ROOM_LEFT_SUCCESS:
+      return Object.assign({}, state, { current: null });
     case types.ROOM_NEW_USER_CONNECTED:
       return Object.assign({}, state, { active_users: [...state.active_users, action.user]});
     case types.ROOM_NEW_USER_LEFT:
