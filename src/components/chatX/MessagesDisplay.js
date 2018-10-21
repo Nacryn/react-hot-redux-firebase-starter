@@ -12,12 +12,12 @@ class MessagesDisplay extends React.Component {
     super(props)
   }
 
-  componentWillMount() {
-    this.props.actions.watchIncomingMessage(this.props.currentRoomId);
-  }
-
-  componentWillUnmount() {
-    this.props.actions.unwatchIncomingMessage(this.props.currentRoomId);
+  componentDidUpdate(oldProps) {
+    console.log("am i updating ?");
+    if (oldProps.currentRoomId !== this.props.currentRoomId) {
+      this.props.actions.unwatchIncomingMessage(oldProps.currentRoomId);
+      this.props.actions.watchIncomingMessage(this.props.currentRoomId);
+    }
   }
 
   render() {
@@ -34,6 +34,7 @@ class MessagesDisplay extends React.Component {
 }
 
 function mapStateToProps(state) {
+  console.log(state);
   return {
     messages: state.messages,
     currentRoomId: state.rooms.current,
